@@ -15,13 +15,12 @@ export default NextAuth({
         },
         password: {
           label: "Password",
-          type: "text",
+          type: "passord",
         },
       },
-
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and Password required");
+          throw new Error("Email and password required");
         }
 
         const user = await prismadb.user.findUnique({
@@ -40,27 +39,20 @@ export default NextAuth({
         );
 
         if (!isCorrectPassword) {
-          throw new Error("Incorrect Password");
+          throw new Error("Incorrect password");
         }
 
         return user;
       },
     }),
   ],
-
   pages: {
     signIn: "/auth",
   },
-
   debug: process.env.NODE_ENV === "development",
-
-  session: {
-    stratergy: "jwt",
-  },
-
+  session: { strategy: "jwt" },
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
-
   secret: process.env.NEXTAUTH_SECRET,
 });
