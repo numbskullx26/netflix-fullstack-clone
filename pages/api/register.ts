@@ -1,13 +1,13 @@
 import bcrypt from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
-import prismadb from "@/lib/prismadb";
+import prismadb from "@/libs/prismadb";
+import { v4 as uuidv4 } from "uuid";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    console.log("ac");
     if (req.method !== "POST") {
       return res.status(405).end();
     }
@@ -28,6 +28,7 @@ export default async function handler(
 
     const user = await prismadb.user.create({
       data: {
+        id: uuidv4(),
         email,
         name,
         hashedPassword,
