@@ -1,8 +1,11 @@
 import { useCallback, useState } from "react";
 import Input from "../components/input";
 import axios from "axios";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Auth = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +17,21 @@ const Auth = () => {
     );
   }, []);
 
+  const Login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+
+      router.push("/");
+    } catch (error) {
+      console.log("error");
+    }
+  }, [email, password, router]);
+
   const register = useCallback(async () => {
     try {
       await axios.post("/api/register", {
@@ -21,10 +39,12 @@ const Auth = () => {
         name,
         password,
       });
+
+      Login();
     } catch (error) {
       console.log(error);
     }
-  }, [email, name, password]);
+  }, [email, name, password, Login]);
 
   // const register = useCallback(async () => {
   //   try {
@@ -75,7 +95,7 @@ const Auth = () => {
             </div>
 
             <button
-              onClick={register}
+              onClick={variant === "Login" ? Login : register}
               className="bg-red-600 text-white rounded-md w-full mt-10 hover:bg-red-700 transition py-4"
             >
               {variant === "Login" ? "Login" : "Sign Up"}
