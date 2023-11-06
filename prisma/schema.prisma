@@ -3,6 +3,8 @@ generator client {
 }
 
 datasource db {
+
+  ///changed db from mongo to postgresql
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
