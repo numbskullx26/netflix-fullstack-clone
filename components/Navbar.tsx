@@ -1,8 +1,20 @@
+import { useCallback, useState } from "react";
 import MobileMenu from "./MobileMenu";
 import NavbarItem from "./NavbarItem";
-import { BsChevronDown } from "react-icons/bs";
+import { BsChevronDown, BsSearch, BsBell } from "react-icons/bs";
+import AccountMenu from "./AccountMenu";
 
 const Navbar = () => {
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
+
+  const toggleMobileMenu = useCallback(() => {
+    setShowMobileMenu((current) => !current);
+  }, []);
+
+  const toggleAccountMenu = useCallback(() => {
+    setShowAccountMenu((current) => !current);
+  }, []);
   return (
     <nav className="w-full fixed z-40">
       <div
@@ -37,10 +49,40 @@ const Navbar = () => {
           <NavbarItem label="My List" />
           <NavbarItem label="Browse by languages" />
         </div>
-        <div className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative">
-          <p className="text-white text-sm">Browse </p>
-          <BsChevronDown className="text-white transition" />
-          <MobileMenu visible />
+        <div
+          onClick={toggleMobileMenu}
+          className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative"
+        >
+          <p className="text-gray-200 hover:text-gray-300 text-sm">Browse </p>
+          <BsChevronDown
+            className={`text-white transition ${
+              showMobileMenu ? "rotate-180" : "rotate-0"
+            }`}
+          />
+          <MobileMenu visible={showMobileMenu} />
+        </div>
+
+        <div className="flex flex-row gap-7 ml-auto items-center">
+          <div className=" text-gray-200 hover:text-gray-400 transition cursor-pointer">
+            <BsSearch />
+          </div>
+          <div className=" text-gray-200 hover:text-gray-400 transition cursor-pointer">
+            <BsBell />
+          </div>
+          <div
+            onClick={toggleAccountMenu}
+            className="flex flex-row gap-2 items-center cursor-pointer relative"
+          >
+            <div className="h-6 w-6 lg:h-10 lg:w-10 rounded-md overflow-hidden">
+              <img src="/images/default-blue.png" alt="profile" />
+            </div>
+            <BsChevronDown
+              className={`text-white transition ${
+                showAccountMenu ? "rotate-180" : "rotate-0"
+              }`}
+            />
+            <AccountMenu visible={showAccountMenu} />
+          </div>
         </div>
       </div>
     </nav>
