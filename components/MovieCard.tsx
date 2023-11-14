@@ -1,6 +1,8 @@
 import React from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 
+import FavoriteButton from "./FavoriteButton";
+
 interface MovieCardProps {
   data: Record<string, any>;
 }
@@ -18,7 +20,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
         <img
           src={data.thumbnailUrl}
           alt="thumbnail"
-          className="cursor-pointer
+          className="cursor-poSinter
         object-cover
         transition
         duration
@@ -37,6 +39,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
             >
               <BsFillPlayFill size={30} />
             </div>
+            <FavoriteButton movieId={data?.id} />
           </div>
 
           <p className="text-green-400 font-semibold mt-4">
