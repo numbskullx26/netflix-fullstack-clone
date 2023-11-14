@@ -13,7 +13,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY === TOP_OFFSET) {
+      if (window.scrollY !== TOP_OFFSET) {
         setShowBackground(true);
       } else {
         setShowBackground(false);
@@ -23,7 +23,7 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.addEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
   // useEffect(()=>{
@@ -62,7 +62,7 @@ const Navbar = () => {
         items-center
         transition
         duration-500
-        ${showBackground ? 'bg-zinc-900 bg-opacity-90' : ''}
+        ${showBackground ? "bg-zinc-900 bg-opacity-90" : ""}
         `}
       >
         <img className="h-4 lg:h-7" src="/images/logo.png" alt="logo" />
