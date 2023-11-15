@@ -2,6 +2,7 @@ import React from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import FavoriteButton from "./FavoriteButton";
+import useInfoModal from "@/hooks/useInfoModal";
 
 interface MovieCardProps {
   data: Record<string, any>;
@@ -9,6 +10,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
   const router = useRouter();
+  const { openModal } = useInfoModal();
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw]">
       <img
