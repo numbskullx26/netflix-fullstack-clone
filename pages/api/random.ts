@@ -12,7 +12,7 @@ export default async function handler(
 
   try {
     //not extracting the currrent user using serverAuth. Just checking if the user is signed in or not.
-    await serverAuth(req);
+    await serverAuth(req,res);
 
     const movieCount = await prismadb.movie.count();
     const randomIndex = Math.floor(Math.random() * movieCount);
