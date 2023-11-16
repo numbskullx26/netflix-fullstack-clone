@@ -10,9 +10,12 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const { currentUser } = await serverAuth(req);
+      console.log("ENTERING");
+      const { currentUser } = await serverAuth(req,res);
 
       const { movieId } = req.body;
+
+      console.log(movieId);
 
       const existingMovie = await prismadb.movie.findUnique({
         where: {
@@ -39,7 +42,7 @@ export default async function handler(
     }
 
     if (req.method === "DELETE") {
-      const { currentUser } = await serverAuth(req);
+      const { currentUser } = await serverAuth(req,res);
 
       const { movieId } = req.body;
 
@@ -69,6 +72,7 @@ export default async function handler(
 
     return res.status(405).end();
   } catch (error) {
+    console.log("entered catch");
     console.log(error);
 
     return res.status(500).end();

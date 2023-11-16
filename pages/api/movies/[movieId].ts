@@ -13,16 +13,17 @@ export default async function handler(
   }
 
   try {
-    await serverAuth(req);
+    await serverAuth(req,res);
 
     const { movieId } = req.query;
+    console.log(movieId);
 
     if (typeof movieId !== "string") {
-      throw new Error("Invalid ID");
+      throw new Error("Invalid ID. Movie Id not a string");
     }
 
     if (!movieId) {
-      throw new Error("Invalid ID");
+      throw new Error("Invalid ID. Not a movieId");
     }
 
     const movie = await prismadb.movie.findUnique({
@@ -32,7 +33,7 @@ export default async function handler(
     });
 
     if (!movie) {
-      throw new Error("Invalid ID");
+      throw new Error("Invalid ID. Not a movie");
     }
 
     return res.status(200).json(movie);
